@@ -1,7 +1,10 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
-const TodoApp = ({todos, addTodo}) =>{
+const TodoApp = ({todos, addTodo, fetchTodo}) =>{
     const [text, setText] = useState("");
+    useEffect(() => {
+        fetchTodo();
+    }, [fetchTodo])
     return (
         <div>
             <input 
@@ -12,7 +15,7 @@ const TodoApp = ({todos, addTodo}) =>{
             <button onClick={() => addTodo(text)}>Add</button>
             <ul>
             {todos.map(todo => (
-                <li>{todo}</li>
+                <li key={todo.id}>{todo.title}</li>
             ))}
             </ul>
         </div>
