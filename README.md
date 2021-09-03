@@ -1,6 +1,7 @@
 # Learn Redux ReactJS
 # Project title
-Todos app
+Todos app 
+Function: add, remove, isCompleted
 
 # Installation
 ```
