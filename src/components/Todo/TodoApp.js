@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../../features/todoSlice";
+import { addTodo, active, remove } from "../../features/todoSlice";
+import { PlusOutlined } from "@ant-design/icons";
+import { FaRegDotCircle, FaDotCircle } from "react-icons/fa";
+import { GrFormClose } from "react-icons/gr";
 import "./style.scss";
 
 // {todos, addTodo, fetchTodo}
@@ -9,30 +12,56 @@ const TodoApp = () => {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.items);
 
+  const hanleOnKeyPress = (e) => {
+    if (e.key === "Enter") handleAdd();
+  };
+
   const handleAdd = () => {
     if (!text) return;
     const todo = {
       id: 1000 + Math.trunc(Math.random() * 9000),
       title: text,
+      isCompleted: false,
     };
     dispatch(addTodo(todo));
     setText("");
+  };
+  const handleActive = (id) => {
+    dispatch(active(id));
+  };
+  const handleRemove = (id) => {
+    dispatch(remove(id));
   };
   const todoSelected = (text) => {
     setText(text);
   };
   return (
     <div className="todo">
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <button onClick={handleAdd}>Add</button>
+      <div className="header">
+        <div className="icon"></div>
+        <h5>Todos</h5>
+      </div>
+      <div className="input-group">
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyPress={hanleOnKeyPress}
+        />
+        <button className="btn" onClick={handleAdd}>
+          <PlusOutlined />
+        </button>
+      </div>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id} onClick={() => todoSelected(todo.title)}>
-            {todo.title}
+          <li className={todo.isCompleted ? "active" : ""} key={todo.id}>
+            <div className="check" onClick={() => handleActive(todo.id)}>
+              {todo.isCompleted ? <FaDotCircle /> : <FaRegDotCircle />}
+            </div>
+            <span onClick={() => todoSelected(todo.title)}>{todo.title}</span>
+            <div className="remove" onClick={() => handleRemove(todo.id)}>
+              <GrFormClose />
+            </div>
           </li>
         ))}
       </ul>
