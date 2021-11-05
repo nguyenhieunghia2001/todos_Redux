@@ -1,12 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+export const addTodoThunk = createAsyncThunk(
+  "todo/add",
+  async (payload, thunkAPI) =>
+    new Promise(function (resolve, reject) {
+      setTimeout(() => {
+        resolve(payload);
+      }, 2000);
+    })
+);
 
 const initialState = {
   items: [],
+  isUpload: false,
 };
-// export const fetchTodos = () => async (dispatch) => {
-//   const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
-//   dispatch(setTodo(res.data));
-// }
 
 const todo = createSlice({
   name: "todo",
@@ -32,6 +39,15 @@ const todo = createSlice({
         ...state.items.slice(0, index),
         ...state.items.slice(index + 1, state.items.length),
       ];
+    },
+  },
+  extraReducers: {
+    [addTodoThunk.pending]: (state) => {
+      state.isUpload = true;
+    },
+    [addTodoThunk.fulfilled]: (state, action) => {
+      state.isUpload = false;
+      state.items.push(action.payload);
     },
   },
 });

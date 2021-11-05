@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, active, remove } from "../../features/todoSlice";
+import {
+  addTodo,
+  active,
+  remove,
+  addTodoThunk,
+} from "../../features/todoSlice";
 import { PlusOutlined } from "@ant-design/icons";
 import { FaRegDotCircle, FaDotCircle } from "react-icons/fa";
 import { GrFormClose } from "react-icons/gr";
+import Ring from "react-cssfx-loading/lib/Ring";
 import "./style.scss";
 
 // {todos, addTodo, fetchTodo}
@@ -11,6 +17,7 @@ const TodoApp = () => {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.items);
+  const isUpload = useSelector((state) => state.todos.isUpload);
 
   const hanleOnKeyPress = (e) => {
     if (e.key === "Enter") handleAdd();
@@ -23,7 +30,7 @@ const TodoApp = () => {
       title: text,
       isCompleted: false,
     };
-    dispatch(addTodo(todo));
+    dispatch(addTodoThunk(todo));
     setText("");
   };
   const handleActive = (id) => {
@@ -48,9 +55,15 @@ const TodoApp = () => {
           onChange={(e) => setText(e.target.value)}
           onKeyPress={hanleOnKeyPress}
         />
-        <button className="btn" onClick={handleAdd}>
-          <PlusOutlined />
-        </button>
+        {isUpload ? (
+          <button className="btn" onClick={handleAdd}>
+            <Ring width="30px" height="30px" />
+          </button>
+        ) : (
+          <button className="btn" onClick={handleAdd}>
+            <PlusOutlined />
+          </button>
+        )}
       </div>
       <ul>
         {todos.map((todo) => (
