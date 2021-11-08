@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addTodo,
-  active,
-  remove,
-  addTodoThunk,
-} from "../../features/todoSlice";
+import { active, remove, addTodoThunk } from "../../features/todoSlice";
 import { PlusOutlined } from "@ant-design/icons";
 import { FaRegDotCircle, FaDotCircle } from "react-icons/fa";
 import { GrFormClose } from "react-icons/gr";
@@ -13,10 +8,10 @@ import Ring from "react-cssfx-loading/lib/Ring";
 import "./style.scss";
 
 // {todos, addTodo, fetchTodo}
-const TodoApp = () => {
+const TodoApp = ({ todos, onchange }) => {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todos.items);
+  // const todos = useSelector((state) => state.todos.items);
   const isUpload = useSelector((state) => state.todos.isUpload);
 
   const hanleOnKeyPress = (e) => {
@@ -35,6 +30,7 @@ const TodoApp = () => {
   };
   const handleActive = (id) => {
     dispatch(active(id));
+    onchange(id);
   };
   const handleRemove = (id) => {
     dispatch(remove(id));

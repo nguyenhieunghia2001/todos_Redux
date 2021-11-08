@@ -1,11 +1,6 @@
 .todo {
-  position: absolute;
   width: 500px;
-  // height: 300px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 0);
-
+  margin: 50px auto;
   .input-group {
     display: flex;
     background-color: #fff;
@@ -29,8 +24,10 @@
     }
   }
   .header {
-    font-size: 23px;
-    color: #fff;
+    h5 {
+      font-size: 23px;
+      color: #fff !important;
+    }
   }
   ul {
     list-style-type: none;

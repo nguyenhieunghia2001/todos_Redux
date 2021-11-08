@@ -6,7 +6,7 @@ export const addTodoThunk = createAsyncThunk(
     new Promise(function (resolve, reject) {
       setTimeout(() => {
         resolve(payload);
-      }, 2000);
+      }, 1000);
     })
 );
 
@@ -20,6 +20,7 @@ const todo = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action) => {
+      console.log(state);
       state.items.push(action.payload);
     },
     active: (state, action) => {
@@ -47,7 +48,7 @@ const todo = createSlice({
     },
     [addTodoThunk.fulfilled]: (state, action) => {
       state.isUpload = false;
-      state.items.push(action.payload);
+      state.items = [action.payload, ...state.items];
     },
   },
 });

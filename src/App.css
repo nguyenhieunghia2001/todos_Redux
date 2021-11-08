@@ -39,5 +39,5 @@
 
 body{
   position: relative;
-  background-color: #010833;
+  background-color: #010833 !important;
 }

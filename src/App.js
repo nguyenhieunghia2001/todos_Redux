@@ -1,12 +1,10 @@
 import "./App.css";
-import TodoApp from "./components/Todo/TodoApp";
-import Login from "./components/Login";
+import Patination from "./components/pagination/pagination";
 
 function App() {
   return (
     <div className="App">
-      {/* <Login /> */}
-      <TodoApp />
+      <Patination />
     </div>
   );
 }
